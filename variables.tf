@@ -26,9 +26,9 @@ variable "name" {
 variable "vpc_cidr" {
   description = "The CIDR of the VPC."
   type        = string
-  default     = "15.25.15.0/27"
+  default     = "15.25.15.0/26"
 }
-variable "subnet_cidr" {
+variable "subnet_cidr_db" {
   description = "The CIDR blocks for the subnets."
   type        = list(any)
   default     = ["15.25.15.0/28", "15.25.15.16/28"]
