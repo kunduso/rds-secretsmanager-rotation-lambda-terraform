@@ -31,5 +31,5 @@ variable "vpc_cidr" {
 variable "subnet_cidr" {
   description = "The CIDR blocks for the subnets."
   type        = list(any)
-  default     = ["12.25.15.0/28", "12.25.15.16/28"]
+  default     = ["15.25.15.0/28", "15.25.15.16/28"]
 }
