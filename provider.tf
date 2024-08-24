@@ -13,7 +13,7 @@ provider "aws" {
   secret_key = var.secret_key
   default_tags {
     tags = {
-      Source = "https://github.com/kunduso/terraform-rds-secretsmanager-rotation-lambda"
+      Source = "https://github.com/kunduso/rds-secretsmanager-rotation-lambda-terraform"
     }
   }
 }
