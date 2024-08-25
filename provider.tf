@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "5.63.1"
     }
-        random = {
-      source  = "hashicorp/random"
-      version = "3.6.2"
-    }
   }
 }
 
@@ -20,8 +16,4 @@ provider "aws" {
       Source = "https://github.com/kunduso/rds-secretsmanager-rotation-lambda-terraform"
     }
   }
-}
-#https://registry.terraform.io/providers/hashicorp/random/latest/docs
-provider "random" {
-  # Configuration options
 }
