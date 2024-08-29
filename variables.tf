@@ -33,3 +33,8 @@ variable "subnet_cidr_db" {
   type        = list(any)
   default     = ["15.25.15.0/28", "15.25.15.16/28"]
 }
+variable "lambda_log_group_prefix" {
+  description = "The name of the log group."
+  type        = string
+  default     = "/aws/lambda/"
+}
