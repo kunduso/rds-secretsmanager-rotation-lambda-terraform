@@ -45,9 +45,12 @@ def lambda_handler(event, context):
     # Setup the client
     #service_client = boto3.client('secretsmanager', config=config, endpoint_url=os.environ['SECRETS_MANAGER_ENDPOINT'])
     secret_arn = event['SecretId']
+    step = event['Step']
     log_group_name = os.environ['log_group_name']
     log_stream_name = os.environ['log_stream_name']
     try:
+        log_cloudwatch(log_group_name, log_stream_name, f"Lambda Function Run")
         log_cloudwatch(log_group_name, log_stream_name, secret_arn)
+        log_cloudwatch(log_group_name, log_stream_name, step)
     except Exception as e:
         logging.error(f"An error occurred: {e}")
