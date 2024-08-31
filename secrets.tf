@@ -15,12 +15,12 @@ resource "aws_secretsmanager_secret" "rds_password" {
 resource "aws_secretsmanager_secret_version" "rds_password" {
   secret_id = aws_secretsmanager_secret.rds_password.id
   secret_string = jsonencode({
-    username = "user1"
-    password = "${random_password.password.result}"
     engine   = "postgres"
     host     = split(":", aws_db_instance.postgresql.endpoint)[0]
-    port     = 5432
+    username = "user01"
+    password = "${random_password.password.result}"
     dbname   = var.name
+    port     = 5432
   })
 }
 resource "aws_secretsmanager_secret_rotation" "rds_password" {
