@@ -13,6 +13,7 @@ resource "aws_lambda_function" "secret_rotator" {
   handler          = "handler.lambda_handler"
   runtime          = "python3.12"
   kms_key_arn      = aws_kms_key.encryption_rest.arn
+  timeout          = 20
   logging_config {
     log_format       = "JSON"
     log_group        = aws_cloudwatch_log_group.lambda_log.name
@@ -20,13 +21,9 @@ resource "aws_lambda_function" "secret_rotator" {
   }
   environment {
     variables = {
-      log_group_name  = aws_cloudwatch_log_group.lambda_log.name
-      log_stream_name = aws_cloudwatch_log_stream.log_stream.name
-      SECRETS_MANAGER_ENDPOINT = "https://secretsmanager.${var.region}.amazonaws.com",
-      API_CONNECT_TIMEOUT      = 2,
-      API_READ_TIMEOUT         = 2,
-      API_RETRIES              = 10,
-      LOG_LEVEL                = "DEBUG"
+      log_group_name           = aws_cloudwatch_log_group.lambda_log.name
+      log_stream_name          = aws_cloudwatch_log_stream.log_stream.name
+      SECRETS_MANAGER_ENDPOINT = "https://secretsmanager.${var.region}.amazonaws.com"
     }
   }
   #checkov:skip=CKV_AWS_50: Not applicable in this use case: X-Ray tracing is enabled for Lambda
