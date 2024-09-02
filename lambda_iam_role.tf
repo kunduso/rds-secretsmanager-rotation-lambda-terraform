@@ -42,6 +42,17 @@ resource "aws_iam_policy" "lambda_policy" {
       {
         Effect = "Allow",
         Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt",
+          "kms:GenerateDataKey",
+          "kms:Describe"
+        ]
+        Resource = [aws_kms_key.encryption_secret.arn]
+      },
+      {
+        Effect = "Allow",
+        Action = [
           "secretsmanager:DescribeSecret",
           "secretsmanager:GetSecretValue",
           "secretsmanager:PutSecretValue",

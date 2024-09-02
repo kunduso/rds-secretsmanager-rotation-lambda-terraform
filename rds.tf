@@ -33,9 +33,10 @@ resource "aws_db_instance" "postgresql" {
   # CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
   deletion_protection = false
   #CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled"
-  copy_tags_to_snapshot         = true
-  performance_insights_enabled  = true
-  manage_master_user_password   = true
+  copy_tags_to_snapshot        = true
+  performance_insights_enabled = true
+  manage_master_user_password  = true
+  # password = 
   master_user_secret_kms_key_id = aws_kms_key.encryption_secret.arn
   # master_user_secret_kms_key_id = aws_kms_key.example.arn
   # kms_key_id = aws_kms_key.example.arn
