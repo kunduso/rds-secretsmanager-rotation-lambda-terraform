@@ -31,8 +31,8 @@ resource "aws_lambda_function" "secret_rotator" {
 
   }
   vpc_config {
-    subnet_ids = [for subnet in aws_subnet.db : subnet.id]
-    security_group_ids = [aws_security_group.lambda.id, aws_security_group.endpoint_sg.id]
+    subnet_ids         = [for subnet in aws_subnet.db : subnet.id]
+    security_group_ids = [aws_security_group.lambda.id]
   }
   #checkov:skip=CKV_AWS_50: Not applicable in this use case: X-Ray tracing is enabled for Lambda
   #checkov:skip=CKV_AWS_115: Not applicable in this use case: Ensure that AWS Lambda function is configured for function-level concurrent execution limit
