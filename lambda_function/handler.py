@@ -79,6 +79,10 @@ def lambda_handler(event, context):
         log_cloudwatch(log_group_name, log_stream_name, metadata)
     except Exception as e:
         logging.error(f"An error occurred: {e}")
+    try:
+        log_cloudwatch(log_group_name, log_stream_name, event)
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
     if "RotationEnabled" in metadata and not metadata['RotationEnabled']:
         logger.error("Secret %s is not enabled for rotation" % arn)
         raise ValueError("Secret %s is not enabled for rotation" % arn)
