@@ -1,3 +1,4 @@
+#https://docs.aws.amazon.com/lambda/latest/dg/packaging-layers.html
 #https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file
 data "archive_file" "lambda_layer" {
   type        = "zip"

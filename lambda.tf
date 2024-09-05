@@ -1,3 +1,4 @@
+#https://github.com/aws-samples/aws-secrets-manager-rotation-lambdas/blob/master/SecretsManagerRDSPostgreSQLRotationSingleUser/lambda_function.py
 #https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file
 data "archive_file" "python_file" {
   type        = "zip"
@@ -5,6 +6,7 @@ data "archive_file" "python_file" {
   output_path = "${path.module}/lambda_function.zip"
 }
 
+#https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda.html
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function
 resource "aws_lambda_function" "secret_rotator" {
   filename         = "${path.module}/lambda_function.zip"
