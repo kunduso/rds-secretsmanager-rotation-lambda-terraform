@@ -9,7 +9,7 @@ resource "aws_security_group" "rds" {
   description = "Security group for RDS in ${var.name}"
   vpc_id      = aws_vpc.this.id
   tags = {
-    "Name" = "${var.name}-sg"
+    "Name" = "${var.name}-rds-sg"
   }
   # checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
   # This security group is attached to the Amazon ElastiCache Serverless resource
