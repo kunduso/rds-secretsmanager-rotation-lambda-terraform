@@ -94,7 +94,7 @@ data "aws_iam_policy_document" "encryption_rds_policy" {
     condition {
       test     = "StringEquals"
       variable = "kms:ViaService"
-      values   = ["ssm.${data.aws_region.current.name}.amazonaws.com"]
+      values   = ["ssm.${var.region}.amazonaws.com"]
     }
   }
 }
