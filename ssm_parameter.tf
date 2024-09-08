@@ -1,8 +1,9 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter
 resource "aws_ssm_parameter" "rds_secret_arn" {
-  name  = "/${var.name}/rds-password-arn"
-  type  = "SecureString"
-  value = aws_db_instance.postgresql.master_user_secret[0].secret_arn
+  name   = "/${var.name}/rds-password-arn"
+  type   = "SecureString"
+  key_id = aws_kms_key.encryption_rds.id
+  value  = aws_db_instance.postgresql.master_user_secret[0].secret_arn
 }
 #Create a policy to read from the specific parameter store
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy

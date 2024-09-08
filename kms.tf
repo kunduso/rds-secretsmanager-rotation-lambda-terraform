@@ -19,7 +19,6 @@ data "aws_iam_policy_document" "encryption_rds_policy" {
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
     actions = [
-      # "kms:*"
       "kms:Create*",
       "kms:Describe*",
       "kms:Enable*",
@@ -71,6 +70,32 @@ data "aws_iam_policy_document" "encryption_rds_policy" {
       "kms:CreateGrant"
     ]
     resources = [aws_kms_key.encryption_rds.arn]
+  }
+    statement {
+    sid    = "Allow SSM to use the key"
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["ssm.amazonaws.com"]
+    }
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
+    ]
+    resources = [aws_kms_key.encryption_rds.arn]
+    condition {
+      test     = "StringEquals"
+      variable = "kms:CallerAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "kms:ViaService"
+      values   = ["ssm.${var.region}.amazonaws.com"]
+    }
   }
 }
 resource "aws_kms_key_policy" "encryption_rds" {
