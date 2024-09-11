@@ -44,7 +44,7 @@ resource "aws_db_instance" "postgresql" {
   #checkov: Check: CKV_AWS_226: "Ensure DB instance gets all minor upgrades automatically"
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
   # CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
-  #monitoring_interval  = 5
+  monitoring_interval = 10
   # CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
   deletion_protection = true
   #CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled"
