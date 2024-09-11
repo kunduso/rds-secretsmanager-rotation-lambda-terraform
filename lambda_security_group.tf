@@ -11,22 +11,22 @@ resource "aws_security_group" "lambda" {
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
 resource "aws_security_group_rule" "egress_rds_lambda" {
-  description       = "allow traffic from rds to reach Lambda"
-  type              = "egress"
-  from_port         = 5432
-  to_port           = 5432
-  protocol          = "tcp"
+  description              = "allow traffic from rds to reach Lambda"
+  type                     = "egress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
   source_security_group_id = aws_security_group.rds.id
   # cidr_blocks       = [var.vpc_cidr]
   security_group_id = aws_security_group.lambda.id
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
 resource "aws_security_group_rule" "egress_vpc_endpoint_lambda" {
-  description       = "allow traffic from vpc-endpoint to reach lambda"
-  type              = "egress"
-  from_port         = 443
-  to_port           = 443
-  protocol          = "tcp"
+  description              = "allow traffic from vpc-endpoint to reach lambda"
+  type                     = "egress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
   source_security_group_id = aws_security_group.endpoint_sg.id
   # cidr_blocks       = [var.vpc_cidr]
   security_group_id = aws_security_group.lambda.id

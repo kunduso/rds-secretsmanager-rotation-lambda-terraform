@@ -30,6 +30,7 @@ resource "aws_lambda_function" "secret_rotator" {
     }
 
   }
+  #https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html
   vpc_config {
     subnet_ids         = [for subnet in aws_subnet.db : subnet.id]
     security_group_ids = [aws_security_group.lambda.id]

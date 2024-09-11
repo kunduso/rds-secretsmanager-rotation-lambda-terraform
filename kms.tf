@@ -71,7 +71,7 @@ data "aws_iam_policy_document" "encryption_rds_policy" {
     ]
     resources = [aws_kms_key.encryption_rds.arn]
   }
-    statement {
+  statement {
     sid    = "Allow SSM to use the key"
     effect = "Allow"
     principals {
