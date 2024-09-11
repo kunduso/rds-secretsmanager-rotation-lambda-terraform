@@ -4,11 +4,6 @@ resource "aws_db_subnet_group" "rds" {
   subnet_ids = [for subnet in aws_subnet.db : subnet.id]
 }
 
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_parameter_group
-resource "aws_db_parameter_group" "postgres" {
-  name   = var.name
-  family = "postgres16"
-}
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance
 resource "aws_db_instance" "postgresql" {
   allocated_storage          = 100
@@ -21,7 +16,7 @@ resource "aws_db_instance" "postgresql" {
   skip_final_snapshot        = true # Change to false if you want a final snapshot
   db_subnet_group_name       = aws_db_subnet_group.rds.id
   storage_encrypted          = true
-  parameter_group_name       = aws_db_parameter_group.postgres.name
+  parameter_group_name       = "default.postgres16"
   multi_az                   = true
   vpc_security_group_ids     = [aws_security_group.rds.id]
   auto_minor_version_upgrade = true
