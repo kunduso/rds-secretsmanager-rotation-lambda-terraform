@@ -27,27 +27,29 @@ resource "aws_db_parameter_group" "postgres" {
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance
 resource "aws_db_instance" "postgresql" {
-  allocated_storage          = 100
-  storage_type               = "gp3"
-  engine                     = "postgres"
-  engine_version             = "16.3"
-  instance_class             = "db.t3.large"
-  identifier                 = var.name
-  username                   = "postgres"
-  skip_final_snapshot        = true # Change to false if you want a final snapshot
-  db_subnet_group_name       = aws_db_subnet_group.rds.id
-  storage_encrypted          = true
-  parameter_group_name       = aws_db_parameter_group.postgres.name #"default.postgres16"
-  multi_az                   = true
-  vpc_security_group_ids     = [aws_security_group.rds.id]
+  allocated_storage                   = 100
+  storage_type                        = "gp3"
+  engine                              = "postgres"
+  engine_version                      = "16.3"
+  instance_class                      = "db.t3.large"
+  identifier                          = var.name
+  username                            = "postgres"
+  skip_final_snapshot                 = true # Change to false if you want a final snapshot
+  db_subnet_group_name                = aws_db_subnet_group.rds.id
+  storage_encrypted                   = true
+  parameter_group_name                = aws_db_parameter_group.postgres.name
+  multi_az                            = true
+  vpc_security_group_ids              = [aws_security_group.rds.id]
+  iam_database_authentication_enabled = true
+  #checkov: CKV_AWS_161: "Ensure RDS database has IAM authentication enabled"
   auto_minor_version_upgrade = true
-  #checkov: Check: CKV_AWS_226: "Ensure DB instance gets all minor upgrades automatically"
+  #checkov: CKV_AWS_226: "Ensure DB instance gets all minor upgrades automatically"
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
-  # CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+  #checkov: CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
   monitoring_interval = 10
-  # CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+  #checkov: CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
   deletion_protection = true
-  #CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled"
+  #checkov: CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled"
   copy_tags_to_snapshot                 = true
   manage_master_user_password           = true
   master_user_secret_kms_key_id         = aws_kms_key.encryption_rds.arn
