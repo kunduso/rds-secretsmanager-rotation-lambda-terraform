@@ -20,10 +20,6 @@ resource "aws_db_parameter_group" "postgres" {
     name  = "rds.force_ssl"
     value = "1"
   }
-  parameter {
-    name  = "ssl"
-    value = "1"
-  }
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance
 resource "aws_db_instance" "postgresql" {
@@ -47,6 +43,7 @@ resource "aws_db_instance" "postgresql" {
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
   #checkov: CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
   monitoring_interval = 10
+  monitoring_role_arn = aws_iam_role.rds_monitoring_role.arn
   #checkov: CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
   deletion_protection = true
   #checkov: CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled"
