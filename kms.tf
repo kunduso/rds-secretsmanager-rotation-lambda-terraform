@@ -19,8 +19,12 @@ data "aws_iam_policy_document" "encryption_rds_policy" {
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
     actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey",
       "kms:Create*",
-      "kms:Describe*",
       "kms:Enable*",
       "kms:List*",
       "kms:Put*",
@@ -71,7 +75,7 @@ data "aws_iam_policy_document" "encryption_rds_policy" {
     ]
     resources = [aws_kms_key.encryption_rds.arn]
   }
-    statement {
+  statement {
     sid    = "Allow SSM to use the key"
     effect = "Allow"
     principals {
