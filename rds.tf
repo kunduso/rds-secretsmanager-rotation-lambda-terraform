@@ -17,7 +17,7 @@ resource "aws_db_parameter_group" "postgres" {
     value = "1"
   }
   parameter {
-    name  = "rds.forcs_ssl"
+    name  = "rds.force_ssl"
     value = "1"
   }
   parameter {
