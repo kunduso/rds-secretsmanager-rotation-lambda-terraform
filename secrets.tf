@@ -1,6 +1,6 @@
 #https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password
 resource "random_password" "password" {
-  length           = 128
+  length           = 28
   special          = true
   override_special = "~!#$%^&*()-_=+[]{}\\|;:<>.?"
 }
@@ -8,7 +8,7 @@ resource "random_password" "password" {
 resource "aws_secretsmanager_secret" "rds_password" {
   name                    = var.name
   recovery_window_in_days = 0
-  kms_key_id              = aws_kms_key.encryption_secret.id
+  kms_key_id              = aws_kms_key.encryption_rds.id
   #checkov:skip=CKV2_AWS_57: Disabled Secrets Manager secrets automatic rotation
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret_version
