@@ -11,8 +11,6 @@ resource "aws_security_group" "rds" {
   tags = {
     "Name" = "${var.name}-rds-sg"
   }
-  # checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
-  # This security group is attached to the Amazon RDS DB resource
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
 resource "aws_security_group_rule" "ingress_rds_sg" {
