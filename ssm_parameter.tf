@@ -3,12 +3,11 @@ resource "aws_ssm_parameter" "rds_connection" {
   name   = "/${var.name}/rds-connection"
   type   = "SecureString"
   key_id = aws_kms_key.encryption_rds.id
-  value  = <<EOF
-  {
-    "rds_endpoint":"${aws_db_instance.postgresql.endpoint}",
-    "secret_arn":"${aws_db_instance.postgresql.master_user_secret[0].secret_arn}"
-  }
-  EOF
+  value = jsonencode({
+    rds_endpoint = split(":", aws_db_instance.postgresql.endpoint)[0],
+    rds_port     = split(":", aws_db_instance.postgresql.endpoint)[1],
+    secret_arn   = aws_db_instance.postgresql.master_user_secret[0].secret_arn
+  })
 }
 #Create a policy to read from the specific parameter store
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
