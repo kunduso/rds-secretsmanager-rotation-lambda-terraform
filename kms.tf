@@ -1,7 +1,7 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key
 resource "aws_kms_key" "encryption_rds" {
   enable_key_rotation     = true
-  description             = "Key to encrypt secret"
+  description             = "Key to encrypt the ${var.name} resources."
   deletion_window_in_days = 7
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias
@@ -39,7 +39,6 @@ data "aws_iam_policy_document" "encryption_rds_policy" {
     ]
     resources = [aws_kms_key.encryption_rds.arn]
   }
-
   statement {
     sid    = "Allow RDS to use the key"
     effect = "Allow"
