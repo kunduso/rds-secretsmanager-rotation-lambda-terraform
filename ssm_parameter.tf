@@ -27,6 +27,13 @@ resource "aws_iam_policy" "ssm_parameter_policy" {
           "ssm:GetParameter"
         ],
         Resource = [aws_ssm_parameter.rds_connection.arn]
+      },
+      {
+                Effect = "Allow",
+        Action = [
+          "kms:Decrypt"
+        ],
+        Resource = [aws_kms_key.encryption_rds.id]
       }
     ]
   })
