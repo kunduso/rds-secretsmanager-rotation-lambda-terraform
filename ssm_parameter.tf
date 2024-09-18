@@ -33,7 +33,7 @@ resource "aws_iam_policy" "ssm_parameter_policy" {
         Action = [
           "kms:Decrypt"
         ],
-        Resource = [aws_kms_key.encryption_rds.id]
+        Resource = [aws_kms_key.encryption_rds.arn]
       }
     ]
   })
