@@ -1,4 +1,3 @@
-
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc
 resource "aws_vpc" "this" {
   #checkov:skip=CKV2_AWS_11: This is non prod and hence disabled.
