@@ -1,16 +1,20 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter
-resource "aws_ssm_parameter" "rds_secret_arn" {
-  name   = "/${var.name}/rds-password-arn"
+resource "aws_ssm_parameter" "rds_connection" {
+  name   = "/${var.name}/rds-connection"
   type   = "SecureString"
   key_id = aws_kms_key.encryption_rds.id
-  value  = aws_db_instance.postgresql.master_user_secret[0].secret_arn
+  value = jsonencode({
+    rds_endpoint = split(":", aws_db_instance.postgresql.endpoint)[0],
+    rds_port     = split(":", aws_db_instance.postgresql.endpoint)[1],
+    secret_arn   = aws_db_instance.postgresql.master_user_secret[0].secret_arn
+  })
 }
 #Create a policy to read from the specific parameter store
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
 resource "aws_iam_policy" "ssm_parameter_policy" {
-  name        = "${var.name}-ssm-parameter-read-policy"
+  name        = "${var.name}-rds-connection-read-policy"
   path        = "/"
-  description = "Policy to read the RDS Password ARN stored in the SSM Parameter Store."
+  description = "Policy to read the RDS Endpoint and Password ARN stored in the SSM Parameter Store."
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
@@ -22,7 +26,14 @@ resource "aws_iam_policy" "ssm_parameter_policy" {
           "ssm:GetParameters",
           "ssm:GetParameter"
         ],
-        Resource = [aws_ssm_parameter.rds_secret_arn.arn]
+        Resource = [aws_ssm_parameter.rds_connection.arn]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "kms:Decrypt"
+        ],
+        Resource = [aws_kms_key.encryption_rds.id]
       }
     ]
   })
