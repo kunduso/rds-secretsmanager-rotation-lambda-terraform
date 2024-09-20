@@ -1,0 +1,19 @@
+{
+    "user_database_mappings": [
+        {
+            "username": "user1"
+        },
+        {
+            "username": "user2",
+            "database": "postgres"
+        },
+        {
+            "username": "user3",
+            "database": "db1"
+        },
+        {
+            "username": "user4",
+            "database": "db3"
+        }
+    ]
+}
